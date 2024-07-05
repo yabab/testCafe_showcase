@@ -1,0 +1,27 @@
+{
+  "name": "testcafe_showcase",
+  "version": "0.0.1",
+  "description": "Showcase for the use of TestCafe",
+  "main": "testRunner.js",
+  "scripts": {
+    "test": "node testRunner.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/yabab/testCafe_showcase.git"
+  },
+  "keywords": [
+    "testCafe",
+    "test",
+    "automation"
+  ],
+  "author": "Ronildson Scarani Sillas Palermo",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/yabab/testCafe_showcase/issues"
+  },
+  "homepage": "https://github.com/yabab/testCafe_showcase#readme",
+  "dependencies": {
+    "testcafe": "^3.6.2"
+  }
+}
