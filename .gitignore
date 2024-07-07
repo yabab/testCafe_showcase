@@ -1,5 +1,7 @@
 # Test Reports
-reports/
+reports/*.json
+reports/videos/*
+reports/screenshots/*
 
 # Logs
 logs
