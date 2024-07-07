@@ -1,8 +1,8 @@
 const { Selector } = require('testcafe');
-const { makeRequest } = require('../code/request.js');
+const backendApi = require('../services/backend.js');
 
 fixture('Feature: Device Update')
-    .page('http://localhost:3001/');
+    .page('./');
 
 test('Refresh Device Data', async t => {
     await t
@@ -16,10 +16,9 @@ test('Refresh Device Data', async t => {
     const extractedFirstDeviceType = await firstDevice.find('.device-type').innerText;
     const extractedFirstDeviceHddCapacity = await firstDevice.find('.device-capacity').innerText;
 
-    await makeRequest('PUT', `http://localhost:3000/devices/${extractedFirstEditHref.split('/').pop()}`, {"Content-Type": "application/json"}, { system_name: 'Renamed Device', type: extractedFirstDeviceType, hdd_capacity: extractedFirstDeviceHddCapacity.replace(/\D/g,"") });
-
-    await t
-        .eval(() => location.reload());
+    await backendApi.updateDevice(process.env.testEnv, extractedFirstEditHref.split('/').pop(), { system_name: 'Renamed Device', type: extractedFirstDeviceType, hdd_capacity: extractedFirstDeviceHddCapacity.replace(/\D/g,"") });
+    
+    await t.eval(() => location.reload());
     
     await t
         .expect(firstDevice.find('.device-name').withText('Renamed Device').visible).ok();

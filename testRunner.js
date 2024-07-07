@@ -5,11 +5,13 @@ const createTestCafe = require('testcafe');
 const argv = yargs(hideBin(process.argv)).argv;
 
 (async () => {
+    process.env.testEnv = process.env.testEnv ? process.env.testEnv : argv.testEnv ? argv.testEnv : 'dev';
+
     const testCafeOptions = {
         hostname: 'localhost',
         port1: 1337,
         port2: 1338,
-        configFile: argv.configFile? argv.configFile : 'configs/.testcaferc.js',
+        configFile: `configs/${process.env.testEnv}.testcaferc.js`
     };
 
     const testcafe = await createTestCafe(testCafeOptions);

@@ -2,7 +2,7 @@ const { Selector } = require('testcafe');
 const { makeRequest } = require('../code/request.js');
 
 fixture('Feature: Device Removal')
-    .page('http://localhost:3001/');
+    .page('./');
 
 test('Remove Device', async t => {
     const deviceEntries = Selector('.device-main-box');
