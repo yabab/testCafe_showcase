@@ -9,7 +9,7 @@ const newDevice = {
     hdd_capacity: `${faker.number.int(4096)}`
 };
 
-fixture('Functionality: Device Insertion')
+fixture('Feature: Device Insertion')
     .page('http://localhost:3001');
 
 test('Insert Device', async t => {

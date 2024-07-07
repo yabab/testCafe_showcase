@@ -1,7 +1,7 @@
 const { Selector } = require('testcafe');
 const { makeRequest } = require('../code/request.js');
 
-fixture('Functionality: Device Update')
+fixture('Feature: Device Update')
     .page('http://localhost:3001/');
 
 test('Refresh Device Data', async t => {

@@ -1,7 +1,7 @@
 const { Selector } = require('testcafe');
 const { makeRequest } = require('../code/request.js');
 
-fixture('Functionality: Device Removal')
+fixture('Feature: Device Removal')
     .page('http://localhost:3001/');
 
 test('Remove Device', async t => {

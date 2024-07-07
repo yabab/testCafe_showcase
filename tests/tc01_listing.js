@@ -1,7 +1,7 @@
 const { Selector } = require('testcafe');
 const { makeRequest } = require('../code/request.js');
 
-fixture('Functionality: Device Listing')
+fixture('Feature: Device Listing')
     .page('http://localhost:3001/');
 
 test('Verify Device Listings', async t => {
