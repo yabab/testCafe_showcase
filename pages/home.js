@@ -36,16 +36,23 @@ module.exports = {
         }
     },
     verifyDeviceListingShort: async function(t, device) {
-        return await t
-            .expect(Selector(this.deviceEntryName).withText(device.system_name).visible).ok()
-            .expect(Selector(this.deviceEntryType).withText(device.type).visible).ok()
-            .expect(Selector(this.deviceEntryHddCapacity).withText(device.hdd_capacity).visible).ok();
+        const deviceEntryWithName = Selector(this.deviceEntryName).withText(device.system_name);
+        const deviceEntryMainBox = deviceEntryWithName.parent('.device-main-box');
+        
+        await t
+            .expect(deviceEntryWithName.visible).ok()
+            .expect(deviceEntryMainBox.find(this.deviceEntryType).withText(device.type).visible).ok()
+            .expect(deviceEntryMainBox.find(this.deviceEntryHddCapacity).withText(device.hdd_capacity).visible).ok();
+
+        return deviceEntryMainBox;
     },
     verifyDeviceListingComplete: async function(t, device) {
-        await this.verifyDeviceListingShort(t, device);
-        return await t
-            .expect(Selector(this.deviceEntryEditButton(device.id)).visible).ok()
-            .expect(Selector(this.deviceEntryRemoveButton(device.id)).visible).ok();
+        const deviceEntry = await this.verifyDeviceListingShort(t, device);
+        await t
+            .expect(deviceEntry.find(this.deviceEntryEditButton(device.id)).visible).ok()
+            .expect(deviceEntry.find(this.deviceEntryRemoveButton(device.id)).visible).ok();
+
+        return deviceEntry;
     },
     filterDeviceByOS: async function(t, os) {
         return await t
