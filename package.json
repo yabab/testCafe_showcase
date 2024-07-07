@@ -24,6 +24,7 @@
   "dependencies": {
     "testcafe": "^3.6.2",
     "yargs": "^17.7.2",
-    "@faker-js/faker": "^8.4.1"
+    "@faker-js/faker": "^8.4.1",
+    "@ffmpeg-installer/ffmpeg": "^1.1.0"
   }
 }

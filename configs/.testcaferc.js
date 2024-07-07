@@ -9,16 +9,16 @@ module.exports = {
         },
         {
             "name": "json",
-            "output": `reports/testReport_${Date.now()}.json`
+            "output": `reports/testReport_${(new Date()).toISOString().replace(/[TZ\.\:\-]/g,"")}.json`
         }
     ],
     "screenshots": {
         "path": "reports/screenshots/",
         "takeOnFails": true
     },
-    "video": {
-        "path": "reports/videos/",
+    "videoPath": "reports/videos/",
+    "videoOptions": {
         "failedOnly": true,
-        "quality": "low"
+        "pathPattern": "${TEST_INDEX}/${USERAGENT}/${FILE_INDEX}.mp4"
     }
 }
