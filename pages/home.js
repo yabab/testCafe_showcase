@@ -14,9 +14,26 @@ module.exports = {
         return await t
             .expect(Selector(this.deviceFilterBySystem).visible).ok();
     },
+    devicesPresent: async function(t) {
+        return await t
+            .expect(Selector(this.deviceEntry).count).gt(0);
+    },
     countDevices: async function(t, deviceCount) {
         return await t
             .expect(Selector(this.deviceEntry).count).eql(deviceCount);
+    },
+    getDeviceInfo: async function(t, device) {
+        const deviceEditHref = await device.find('.device-edit').getAttribute('href');
+        const deviceName = await device.find('.device-name').innerText;
+        const deviceType = await device.find('.device-type').innerText;
+        const deviceHddCapacity = await device.find('.device-capacity').innerText;
+
+        return {
+            id: deviceEditHref.split('/').pop(),
+            system_name: deviceName,
+            type: deviceType,
+            hdd_capacity: deviceHddCapacity
+        }
     },
     verifyDeviceListingShort: async function(t, device) {
         return await t

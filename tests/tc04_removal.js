@@ -1,29 +1,20 @@
 const { Selector } = require('testcafe');
-const { makeRequest } = require('../code/request.js');
+const homePage = require('../pages/home.js');
+const backendApi = require('../services/backend.js');
 
 fixture('Feature: Device Removal')
     .page('./');
 
 test('Remove Device', async t => {
-    const deviceEntries = Selector('.device-main-box');
+    await homePage.filterDeviceByOS(t, 'ALL');
+    await homePage.devicesPresent(t);
 
-    await t
-        .click(Selector('select#device_type'))
-        .click(Selector('option[value="ALL"]'))
-        .expect(deviceEntries.exists).ok();
+    const deviceEntries = Selector(homePage.deviceEntry);
+    const lastDevice = deviceEntries.nth(await deviceEntries.count - 1);
+    const lastDeviceInfo = await homePage.getDeviceInfo(t, lastDevice);
+    await homePage.verifyDeviceListingComplete(t, lastDeviceInfo);
 
-    const lastDevice = Selector('.device-main-box').nth(await deviceEntries.count - 1);
-    const extractedLastEditHref = await lastDevice.find('.device-edit').getAttribute('href');
-    const extractedLastDeviceName = await lastDevice.find('.device-name').innerText;
-
-    await t
-        .expect(Selector('.device-name').withText(extractedLastDeviceName).exists).ok();
-
-    await makeRequest('DELETE', `http://localhost:3000/devices/${extractedLastEditHref.split('/').pop()}`);
-
-    await t
-        .eval(() => location.reload());
-
-    await t
-        .expect(Selector('.device-name').withText(extractedLastDeviceName).exists).notOk();
+    await backendApi.removeDevice(process.env.testEnv, lastDeviceInfo.id);
+    await t.eval(() => location.reload());
+    await t.expect(Selector(homePage.deviceEntryEditButton(lastDeviceInfo.id)).exists).notOk();
 });

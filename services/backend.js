@@ -17,5 +17,8 @@ module.exports = {
     },
     updateDevice: async function(testEnv, deviceId, deviceData) {
         return await makeRequest('PUT', `${backendApiHosts[testEnv].host}:${backendApiHosts[testEnv].port}/devices/${deviceId}`, {"Content-Type": "application/json"}, deviceData);
+    },
+    removeDevice: async function(testEnv, deviceId) {
+        return await makeRequest('DELETE', `${backendApiHosts[testEnv].host}:${backendApiHosts[testEnv].port}/devices/${deviceId}`);
     }
 }
