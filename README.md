@@ -33,7 +33,7 @@ npm run test -- --startCommand "npm --prefix ../devicesTask_serverApp run start 
 node testRunner.js --startCommand "npm --prefix ../devicesTask_serverApp run start | npm --prefix ../devices-clientapp run start"
 ```
 
-When running the tests, you also need to feed the execution with the environment string you wish the tests to run on. By default, that value is 'dev' and it's used to load the 'configs/dev.testcaferc.js' configuration file. Additional configuration files also need to be placed in the 'configs/' folder and named in the same pattern: '<env>.testcaferc.js'. To feed that particular configuration file to the execution, use the --testEnv CLI argument to change the environment string.
+When running the tests, you also need to feed the execution with the environment string you wish the tests to run on. By default, that value is 'dev' and it's used to load the 'configs/dev.testcaferc.js' configuration file. Additional configuration files also need to be placed in the 'configs/' folder and named in the same pattern: '(env).testcaferc.js'. To feed that particular configuration file to the execution, use the --testEnv CLI argument to change the environment string.
 
 ```
 npm run test -- --testEnv dev
