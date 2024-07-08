@@ -16,5 +16,5 @@ test('Remove Device', async t => {
 
     await backendApi.removeDevice(process.env.testEnv, lastDeviceInfo.id);
     await t.eval(() => location.reload());
-    await t.expect(Selector(homePage.deviceEntryEditButton(lastDeviceInfo.id)).exists).notOk();
+    await t.expect(Selector(homePage.deviceEntryEditButtonByID(lastDeviceInfo.id)).exists).notOk();
 });

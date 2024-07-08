@@ -7,8 +7,9 @@ module.exports = {
     deviceEntryName: '.device-name',
     deviceEntryType: '.device-type',
     deviceEntryHddCapacity: '.device-capacity',
-    deviceEntryEditButton: function(id) { return `.device-edit[href="/devices/edit/${id}"]` },
-    deviceEntryRemoveButton: function(id) { return `${this.deviceEntryEditButton(id)} + .device-remove` },
+    deviceEntryEditButtonClass: '.device-edit',
+    deviceEntryEditButtonByID: function(id) { return `${this.deviceEntryEditButtonClass}[href="/devices/edit/${id}"]` },
+    deviceEntryRemoveButton: function(id) { return `${this.deviceEntryEditButtonByID(id)} + .device-remove` },
     addDeviceButton: '.submitButton[href="/devices/add"]',
     check: async function(t) {
         return await t
@@ -23,10 +24,10 @@ module.exports = {
             .expect(Selector(this.deviceEntry).count).eql(deviceCount);
     },
     getDeviceInfo: async function(t, device) {
-        const deviceEditHref = await device.find('.device-edit').getAttribute('href');
-        const deviceName = await device.find('.device-name').innerText;
-        const deviceType = await device.find('.device-type').innerText;
-        const deviceHddCapacity = await device.find('.device-capacity').innerText;
+        const deviceEditHref = await device.find(this.deviceEntryEditButtonClass).getAttribute('href');
+        const deviceName = await device.find(this.deviceEntryName).innerText;
+        const deviceType = await device.find(this.deviceEntryType).innerText;
+        const deviceHddCapacity = await device.find(this.deviceEntryHddCapacity).innerText;
 
         return {
             id: deviceEditHref.split('/').pop(),
@@ -37,7 +38,7 @@ module.exports = {
     },
     verifyDeviceListingShort: async function(t, device) {
         const deviceEntryWithName = Selector(this.deviceEntryName).withText(device.system_name);
-        const deviceEntryMainBox = deviceEntryWithName.parent('.device-main-box');
+        const deviceEntryMainBox = deviceEntryWithName.parent(this.deviceEntry);
         
         await t
             .expect(deviceEntryWithName.visible).ok()
@@ -49,7 +50,7 @@ module.exports = {
     verifyDeviceListingComplete: async function(t, device) {
         const deviceEntry = await this.verifyDeviceListingShort(t, device);
         await t
-            .expect(deviceEntry.find(this.deviceEntryEditButton(device.id)).visible).ok()
+            .expect(deviceEntry.find(this.deviceEntryEditButtonByID(device.id)).visible).ok()
             .expect(deviceEntry.find(this.deviceEntryRemoveButton(device.id)).visible).ok();
 
         return deviceEntry;

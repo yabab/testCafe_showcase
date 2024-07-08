@@ -6,14 +6,15 @@ fixture('Feature: Device Update')
     .page('./');
 
 test('Refresh Device Data', async t => {
+    const newDeviceName = 'Renamed Device';
     await homePage.filterDeviceByOS(t, 'ALL');
     await homePage.devicesPresent(t);
 
     const firstDevice = Selector(homePage.deviceEntry).nth(0);
     const firstDeviceInfo = await homePage.getDeviceInfo(t,firstDevice);
-    await backendApi.updateDevice(process.env.testEnv, firstDeviceInfo.id, { system_name: 'Renamed Device', type: firstDeviceInfo.type, hdd_capacity: firstDeviceInfo.hdd_capacity.replace(/\D/g,"") });
+    await backendApi.updateDevice(process.env.testEnv, firstDeviceInfo.id, { system_name: newDeviceName, type: firstDeviceInfo.type, hdd_capacity: firstDeviceInfo.hdd_capacity.replace(/\D/g,"") });
 
     await t.eval(() => location.reload());
     
-    await homePage.verifyDeviceListingShort(t, { system_name: 'Renamed Device', type: firstDeviceInfo.type, hdd_capacity: firstDeviceInfo.hdd_capacity });
+    await homePage.verifyDeviceListingShort(t, { system_name: newDeviceName, type: firstDeviceInfo.type, hdd_capacity: firstDeviceInfo.hdd_capacity });
 });
